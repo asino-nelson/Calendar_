@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -24,7 +24,7 @@ import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockConfig
 import com.maxkeppeler.sheets.clock.models.ClockSelection
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.LocalTime
 
 @Composable
 fun MainScreen(){
@@ -55,14 +55,14 @@ fun MainScreen(){
     // CLOCK
 
     val clockState = rememberSheetState()
-    val selectedTime = remember{ mutableStateOf<LocalDateTime?>(null) }
+    val selectedTime = remember{ mutableStateOf<LocalTime?>(null) }
     ClockDialog(
         state = clockState,
         config = ClockConfig(
             is24HourFormat = false
         ),
         selection = ClockSelection.HoursMinutesSeconds { hours, minutes, seconds ->
-            selectedTime.value
+            selectedTime.value = LocalTime.of(hours,minutes,seconds)
         }
     )
 
@@ -75,10 +75,10 @@ fun MainScreen(){
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Button(onClick = { calendarState.show() }) {
+        FilledTonalButton(onClick = { calendarState.show() }) {
             Text(text = "Date Picker")
         }
-        Button(onClick = { clockState.show() }) {
+        FilledTonalButton(onClick = { clockState.show()}) {
             Text(text = "Time Picker")
         }
     }
